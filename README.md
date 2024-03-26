@@ -112,7 +112,7 @@ public String toString() {
 
 ```
 
-### Inheritance;
+### Inheritance example;
 
 ```
 public class InheritanceExample {
@@ -166,6 +166,81 @@ class Cat extends Animal {
     public String move() { // Changed return type to String
         movement = "Cats walk."; 
         return movement;
+    }
+}
+
+```
+
+### Interface example;
+```
+public class InterfaceExample {
+    public static void main(String[] args) {
+        // Creating instances of classes implementing the interface
+        Dog dog = new Dog("Brown");
+        Cat cat = new Cat("White");
+
+        // Calling methods from the interface
+        System.out.printf("Dog: %s%n", dog);
+        dog.makeSound();
+        dog.move();
+
+        System.out.printf("Cat: %s%n", cat);
+        cat.makeSound();
+        cat.move();
+    }
+}
+
+// Animal interface
+interface Animal {
+    void makeSound();
+    void move();
+}
+
+// Dog class implementing Animal interface
+class Dog implements Animal {
+    private String color;
+
+    public Dog(String color) {
+        this.color = color;
+    }
+
+    @Override
+    public void makeSound() {
+        System.out.println("Dog barks.");
+    }
+
+    @Override
+    public void move() {
+        System.out.println("Dog runs.");
+    }
+
+    @Override
+    public String toString() {
+        return "Color: " + color;
+    }
+}
+
+// Cat class implementing Animal interface
+class Cat implements Animal {
+    private String color;
+
+    public Cat(String color) {
+        this.color = color;
+    }
+
+    @Override
+    public void makeSound() {
+        System.out.println("Cat meows.");
+    }
+
+    @Override
+    public void move() {
+        System.out.println("Cat walks.");
+    }
+
+    @Override
+    public String toString() {
+        return "Color: " + color;
     }
 }
 
