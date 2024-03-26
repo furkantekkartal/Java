@@ -23,7 +23,7 @@ public class PrintfExample {
 
 ### for loop;
 ```
-public class PrintfExample {
+public class ForExample {
     public static void main(String[] args) {
           int[] numbers = {10, 20, 30, 40, 50};
           for (int i = 0; i < numbers.length; i++) {
@@ -35,7 +35,7 @@ public class PrintfExample {
 
 ### if commands;
 ```
-public class OneLineIfExample {
+public class IfExample {
     public static void main(String[] args) {
         int x = 10;
 
@@ -90,12 +90,24 @@ public class MyVariables {
 ```
 
 
+### toString commands;
 
 ```
-   public String toString() {
-      return String.format( "%s %s%n"
-              +             "%s: %.2f", 
-              "base-salaried",super.toString(), 
-              "base salary", getBaseSalary());   
-   }
+public String toString() {
+        return String.format(
+                "MyVariables: \n" +
+                "age: %d\n" + 
+                "bigNumber: %d\n" + 
+                "pi: %.2f\n" + 
+                "smallDecimal: %.2f\n" + 
+                "initial: %c\n" + 
+                "name: %s\n" + 
+                "isHappy: %b\n" + 
+                "scores: %s\n" + 
+                "fruits: %s", 
+                age, bigNumber, pi, smallDecimal, initial, name, isHappy, 
+                Arrays.toString(scores), fruits.toString() // Assuming you have a 'fruits' ArrayList
+        );
+}
+
 ```
