@@ -89,8 +89,7 @@ public class MyVariables {
 }
 ```
 
-
-### toString commands;
+### toString command;
 
 ```
 public String toString() {
@@ -110,4 +109,65 @@ public String toString() {
         );
 }
 
+
 ```
+
+### Inheritance;
+
+```
+public class InheritanceExample {
+    public static void main(String[] args) {
+
+        Frog frog1 = new Frog("Green");
+        Cat cat1 = new Cat("Yellow");
+
+        cat1.move();
+        frog1.move();
+
+        System.out.printf("Cat 1 color: %s %s%n", cat1.color, cat1.move()); 
+        System.out.printf("Frog 1 color: %s %s%n", frog1.color, frog1.move());
+    }
+}
+
+class Animal {
+    protected String color;
+
+    public Animal(String color) {
+        this.color = color;
+    }
+        
+    @Override
+    public String toString() {
+        return "Color: " + color;
+    }
+}
+
+
+class Frog extends Animal {
+    protected String movement;
+
+    public Frog(String color) {
+        super(color);
+    }
+
+    public String move() { // Changed return type to String
+         movement = "Frogs jump"; 
+         return movement;
+    }
+}
+
+class Cat extends Animal {
+    protected String movement;
+
+    public Cat(String color) {
+        super(color);
+    }
+
+    public String move() { // Changed return type to String
+        movement = "Cats walk."; 
+        return movement;
+    }
+}
+
+```
+
