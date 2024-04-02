@@ -247,6 +247,7 @@ class Cat implements Animal {
 ```
 
 ### Generics example;
+https://www.youtube.com/watch?v=K1iu1kXkVoA&t=920s
 ```
 // Fig. 16.2: CollectionTest.java
 // Collection interface demonstrated via an ArrayList object.
@@ -307,6 +308,7 @@ public class CollectionTest
 ```
 
 ### Iterator example;
+https://www.youtube.com/watch?v=G3uNYHtn83c&list=PL59LTecnGM1NRUyune3SxzZlYpZezK-oQ&index=68
 ```
 import java.util.ArrayList;
 import java.util.Iterator;
