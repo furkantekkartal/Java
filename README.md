@@ -23,15 +23,43 @@ public class PrintfExample {
 
 ### for loop;
 ```
+import java.util.LinkedList;
+import java.util.List;
+
 public class ForExample {
     public static void main(String[] args) {
-          int[] numbers = {10, 20, 30, 40, 50};
-          for (int i = 0; i < numbers.length; i++) {
-              System.out.println(numbers[i]);
-           }
+
+        int[] numbers = {10, 20, 30, 40, 50};
+        List<Integer> numLists = new LinkedList<>();
+
+        // For type 1
+        for (int i = 0; i < numbers.length; i++) {
+            System.out.println(numbers[i]);
+        }
+
+        // For type 2
+        for (int i : numbers) {
+            numLists.add(i);
+        }
+        System.out.println(numLists);
     }
 }
 ```
+```
+public class ListTest {
+
+    public static void main(String[] args) {
+        // add colors elements to list1
+        String[] colors = {"black", "yellow", "green", "blue", "violet", "silver"};
+        List<String> list1 = new LinkedList<>();
+
+
+
+        System.out.println(list1);
+    }
+}
+```
+
 
 ### if commands;
 ```
