@@ -14,9 +14,10 @@ public class PrintfExample {
         double salary = 5000.75;
         boolean isEmployed = true;
         char grade = 'A';
+        long fibonacci = 9223372036854775807L;
 
         // Using printf with different variable types
-        System.out.printf("Name: %s, Age: %d, Salary: $%.2f, Employed: %b, Grade: %c%n", name, age, salary, isEmployed, grade);
+        System.out.printf("Name: %s, Age: %d, Salary: $%.2f, Employed: %b, Grade: %c, Fibonacci: %,d %n", name, age, salary, isEmployed, grade, fibonacci);
     }
 }
 ```
