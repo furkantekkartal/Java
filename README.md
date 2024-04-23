@@ -17,13 +17,17 @@ public class PrintfExample {
         long fibonacci = 9223372036854775807L;
 
         // Using printf with different variable types
-        System.out.printf(" Name: %s,
-                            Age: %d,
-                            Salary: $%.2f,
-                            Employed: %b,
-                            Grade: %c,
-                            Fibonacci: %,d
-                            %n", name, age, salary, isEmployed, grade, fibonacci);
+
+        // Multi line;
+                System.out.printf("Name: %s%n" +
+                          "Age: %d%n" +
+                          "Salary(Aud): %.2f%n" +
+                          "Employed: %b%n" +
+                          "Grade: %c%n" +
+                          "Fibonacci: %,d%n",
+                          name, age, salary, isEmployed, grade, fibonacci);
+        // Single Line:
+        System.out.printf("Name: %s, Age: %d, Salary: $%.2f, Employed: %b, Grade: %c, Fibonacci: %,d%n", name, age, salary, isEmployed, grade, fibonacci);
     }
 }
 ```
