@@ -113,6 +113,9 @@ public class MyVariables {
 
         int[] scores = {90, 85, 95}; // Arrays (like a list of things)
 
+        long fibonacciCache [];
+        fibonacciCache = new long[10];
+
         // ArrayList (like a flexible list)
         ArrayList<String> colors = new ArrayList<>(); // A flexible list that can grow or shrink (like a list of colors).
             colors.add("red");
