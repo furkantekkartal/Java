@@ -60,3 +60,79 @@ public class FactorielExample2_BigInteger {
 ```
 
 ### Fibonacci Example;
+
+Base;
+```
+
+public class FibonacciExample{
+
+    public static void main (String [] args){
+        
+        int n = 6;
+        
+        fibonacci(n);
+        
+        System.out.println(fibonacci(n)+" ");
+    }
+
+    private static long fibonacci(int n) {
+        if (n<=1) {
+            return n;
+        }
+        
+        return (fibonacci(n-1) + fibonacci (n-2));
+        
+    }
+}
+```
+
+FibonacciExample2_Memorization;
+```
+public class FibonacciExample2_Memorization{
+
+    private static long fCache [];
+    public static void main (String [] args){
+        
+        int n = 92;
+        fCache = new long [n+1];
+        fibonacci(n);
+        System.out.println(fibonacci(n)+" ");
+    }
+
+    private static long fibonacci(int n) {
+        if (n<=1) {
+            return n;
+        }
+        
+        if (fCache[n] != 0){
+            return fCache[n] ;
+        }
+        
+        fCache [n] = fibonacci(n-1) + fibonacci (n-2);
+        return (fCache[n]);
+    }
+}
+```
+
+FibonacciExample3_BigInteger
+```
+import java.math.BigInteger;
+
+public class FibonacciExample3_BigInteger {
+    public static void main(String[] args) {
+        for (int counter = 0; counter <= 40; counter++) {
+            System.out.printf("Fibonacci of %d is: %d%n", counter, fibonacci(BigInteger.valueOf(counter)));
+        }
+    }
+
+    private static BigInteger TWO = BigInteger.valueOf(2);
+
+    public static BigInteger fibonacci(BigInteger n) {
+        if (n.equals(BigInteger.ZERO) || n.equals(BigInteger.ONE)){ // base cases
+            return n;
+        }else{ // recursion step 
+            return fibonacci(n.subtract(BigInteger.ONE)).add(fibonacci(n.subtract(TWO)));
+        }
+    }
+}
+```
