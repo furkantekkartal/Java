@@ -1,6 +1,6 @@
 # Java | Java Practice Codes
 
-## 1. Recursion
+##  Recursion
 
 ### Factoriel Example;
 
