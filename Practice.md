@@ -4,7 +4,7 @@
 
 ### Factoriel Example;
 
-Factoriel Base Application;
+Factoriel;
 
 ```
 public class FactorielExample1 {
