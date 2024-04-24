@@ -19,13 +19,13 @@ public class PrintfExample {
         // Using printf with different variable types
 
         // Multi line;
-                System.out.printf("Name: %s%n" +
-                          "Age: %d%n" +
-                          "Salary(Aud): %.2f%n" +
-                          "Employed: %b%n" +
-                          "Grade: %c%n" +
-                          "Fibonacci: %,d%n",
-                          name, age, salary, isEmployed, grade, fibonacci);
+        System.out.printf("Name: %s%n" +
+            "Age: %d%n" +
+            "Salary(Aud): %.2f%n" +
+            "Employed: %b%n" +
+            "Grade: %c%n" +
+            "Fibonacci: %,d%n",
+            name, age, salary, isEmployed, grade, fibonacci);
         // Single Line:
         System.out.printf("Name: %s, Age: %d, Salary: $%.2f, Employed: %b, Grade: %c, Fibonacci: %,d%n", name, age, salary, isEmployed, grade, fibonacci);
     }
