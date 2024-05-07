@@ -120,11 +120,160 @@ public class Fig17_08_RandomIntegers {
 
 ![picture](./Images/Fig17_08_RandomIntegers.png)
 
-## 5. Fig17_09_IntStreamOperations
+## 5. Fig17_09_v2_IntStreamOperations
 
 ```
+package javachapter17;
 
+// Fig. 17.9: IntStreamOperations.java
+// Demonstrating IntStream operations.
+import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+public class Fig17_09_v2_IntStreamOperations {
+
+    public static void main(String[] args) {
+        int[] values = {3, 10, 6, 1, 4, 8, 2, 5, 9, 7};
+
+        // display original values Method 1
+        System.out.print("Original values showing by method 1(mapToObj): ");
+        System.out.println(
+                IntStream.of(values)
+                        .mapToObj(String::valueOf) // Transforms each integer into its String form
+                        .collect(Collectors.joining(" "))); // Concatenate all the Strings with “ “ between each one.
+        
+        // display original values Method 2:
+        System.out.print("Original values showing by method 2(forEach) : ");
+        IntStream.of(values) //: It's a method in the IntStream class. Creates a stream from an array of integers.
+                .forEach(value -> System.out.printf("%d ", value)); //: Iterates over each element of the stream and applies the given action.
+        
+        System.out.println();        
+
+        // count, min, max, sum and average of the values
+        System.out.printf("%nCount: %d%n", IntStream.of(values).count()); // output: 10
+        System.out.printf("Min: %d%n", IntStream.of(values).min().getAsInt()); // output: 1
+        System.out.printf("Max: %d%n", IntStream.of(values).max().getAsInt()); //output: 10
+        System.out.printf("Sum: %d%n", IntStream.of(values).sum()); // output: 55
+        System.out.printf("Average: %.2f%n", IntStream.of(values).average().getAsDouble()); // output: 5.50
+
+        // sum of values with reduce method
+        System.out.printf("%nSum via reduce method: %d%n", IntStream.of(values).reduce(0, (x, y) -> x + y));
+        /*
+        The reduce() method in this case is called with two parameters: 
+              an identity value (0) and 
+              a binary operator lambda (x, y) -> x + y. 
+
+        The identity value is the starting point for the reduction and 
+        the lambda defines how each pair of elements should be combined.
+
+        Here's how the reduction process will unfold with the array:
+
+        Initial Value (identity): 0
+
+        First pair  :  0 + 3  = 3
+        Second pair :  3 + 10 = 13
+        Third pair  : 13 + 6  = 19
+        Fourth pair : 19 + 1  = 20
+        Fifth pair  : 20 + 4  = 24
+        Sixth pair  : 24 + 8  = 32
+        Seventh pair: 32 + 2  = 34
+        Eighth pair : 34 + 5  = 39
+        Ninth pair  : 39 + 9  = 48
+        Tenth pair  : 48 + 7  = 55
+         */
+
+        // sum of squares of values with reduce method
+        System.out.printf("Sum of squares via reduce method: %d%n", IntStream.of(values).reduce(0, (x, y) -> x + y * y));
+        /*
+        This reduce() operation calculates the sum of the squares of each element in the array.
+
+        Reduction Process Explained:
+        Initial Value (identity): 0
+        Operation               : (x, y) -> x + y * y 
+                                where x is the accumulator (keeps the running total) 
+                                and y is the current stream element.
+
+        Step-by-Step Calculation:
+        Initial State: Start with 0 (identity).
+         First Element (3)  : Compute 0   + 3*3   = 0 + 9     = 9.
+         Second Element (10): Compute 9   + 10*10 = 9 + 100   = 109.
+         Third Element (6)  : Compute 109 + 6*6   = 109 + 36  = 145.
+         Fourth Element (1) : Compute 145 + 1*1   = 145 + 1   = 146.
+         Fifth Element (4)  : Compute 146 + 4*4   = 146 + 16  = 162.
+         Sixth Element (8)  : Compute 162 + 8*8   = 162 + 64  = 226.
+         Seventh Element (2): Compute 226 + 2*2   = 226 + 4   = 230.
+         Eighth Element (5) : Compute 230 + 5*5   = 230 + 25  = 255.
+         Ninth Element (9)  : Compute 255 + 9*9   = 255 + 81  = 336.
+         Tenth Element (7)  : Compute 336 + 7*7   = 336 + 49  = 385.     
+         */
+
+        // product of values with reduce method
+        System.out.printf("Product via reduce method: %d%n", IntStream.of(values).reduce(1, (x, y) -> x * y));
+        /*
+          Reduction Process(.reduce(1, (x, y) -> x * y)):
+      
+        Initial State: Start with 1 (identity value for multiplication).
+        First Element (3)   : Compute 1      * 3  = 3.
+        Second Element (10) : Compute 3      * 10 = 30.
+        Third Element (6)   : Compute 30     * 6  = 180.
+        Fourth Element (1)  : Compute 180    * 1  = 180
+        Fifth Element (4)   : Compute 180    * 4  = 720.
+        Sixth Element (8)   : Compute 720    * 8  = 5760.
+        Seventh Element (2) : Compute 5760   * 2  = 11520.
+        Eighth Element (5)  : Compute 11520  * 5  = 57600.
+        Ninth Element (9)   : Compute 57600  * 9  = 518400.
+        Tenth Element (7)   : Compute 518400 * 7  = 3628800.
+         */
+
+        // even values displayed in sorted order
+        System.out.printf("%nEven values displayed in sorted order: ");
+        IntStream.of(values)
+                .filter(value -> value % 2 == 0)
+                .sorted()
+                .forEach(value -> System.out.printf("%d ", value));
+        System.out.println();
+        /*
+Step-by-Step Execution
+    Create Stream   : {3, 10, 6, 1, 4, 8, 2, 5, 9, 7}.
+    Filter Even Nums : {10, 6, 4, 8, 2}.
+    Sort Stream     : {2, 4, 6, 8, 10}.
+    Print Each      : 2 4 6 8 10       
+         */
+        // odd values multiplied by 10 and displayed in sorted order
+        System.out.printf("Odd values multiplied by 10 displayed in sorted order: ");
+        IntStream.of(values)
+                .filter(value -> value % 2 != 0)
+                .map(value -> value * 10)
+                .sorted()
+                .forEach(value -> System.out.printf("%d ", value));
+        System.out.println();
+        /*
+Step-by-Step Execution
+    Create Stream   : {3, 10, 6, 1, 4, 8, 2, 5, 9, 7}.
+    Filter Odd Nums : {3, 1, 5, 9, 7}.
+    Multiply by 10  : {30, 10, 50, 90, 70}.
+    Sort Stream     : {10, 30, 50, 70, 90}.
+    Print Each      : 10 30 50 70 90       
+         */
+        // sum range of integers from 1 to 10, exlusive
+        System.out.printf("%nSum of integers from 1 to 9: %d%n",
+                IntStream.range(1, 10).sum());
+        // IntStream    : {3, 10, 6, 1, 4, 8, 2, 5, 9, 7}.  
+        // .range(1, 10): {1, 2, 3, 4, 5, 6, 7, 8, 9}.
+        // .sum()       : 45
+
+        // sum range of integers from 1 to 10, inclusive
+        System.out.printf("Sum of integers from 1 to 10: %d%n",
+                IntStream.rangeClosed(1, 10).sum());
+        // IntStream    : {3, 10, 6, 1, 4, 8, 2, 5, 9, 7}.  
+        // .range(1, 10): {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}.
+        // .sum()       : 55
+    }
+} // end class IntStreamOperations
 ```
+
+![picture](./Images/Fig17_09_v2_IntStreamOperations.png)
 
 ## 6. Fig17_11_ArraysAndStreams
 
