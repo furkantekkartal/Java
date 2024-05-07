@@ -33,8 +33,22 @@ public class Fig17_03_StreamReduce {
 ## 2. Fig17_04_StreamMapReduce
 
 ```
+package javachapter17;
+import java.util.stream.IntStream;  // Imports the IntStream class for creating streams of ints
 
+public class Fig17_04_StreamMapReduce {
+    public static void main(String[] args) {
+
+        System.out.printf("Sum of the even ints from 2 through 20 is: %d%n",
+                IntStream.rangeClosed(1, 10) // Generates a stream of integers from 1 to 10, inclusive
+                         .map((int x) -> x * 2) // The map operation transforms each element of the stream by 
+                                                // multiplying it by 2. This converts the range 1..10 to the even numbers 2..20
+                         .sum());
+    }
+}
 ```
+
+![picture](./Images/Fig17_04_StreamMapReduce.png)
 
 ## 3. Fig17_07_StreamFilterMapReduce
 
