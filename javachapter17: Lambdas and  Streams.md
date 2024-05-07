@@ -1,4 +1,4 @@
-# Java | Lambdas and  Streams
+![image](https://github.com/furkantekkartal/java/assets/139097441/cfe3907f-97a3-4fc2-abfb-39dfd7cfa5d0)![image](https://github.com/furkantekkartal/java/assets/139097441/897dd26d-fe88-4f52-9ead-8c416311d9e7)# Java | Lambdas and  Streams
 
 ## 1. IntStreamOperations
 
@@ -148,29 +148,55 @@ Step-by-Step Execution
 ```
 
 ### Notes:
-####Data Source
-In the context of Java streams, a data source refers to the source from which data is consumed by a stream for processing. It can be a collection, an array, a generator function, or an I/O channel. In your example, int[] values serves as the data source when you create a stream using IntStream.of(values).
 
-####Terminal Operations
-Terminal operations are the final operations that trigger the processing of the data in the stream and after which the stream cannot be used anymore. They typically return a non-stream result or produce a side-effect (such as forEach). Examples include:
+#### Data Source
 
-forEach(): Performs an action for each element of the stream.
-count(): Returns the count of elements in the stream.
-sum(): Sums the elements of a stream (specific to numeric streams like IntStream).
-min(), max(): Returns the minimum or maximum element respectively.
-reduce(): Performs a reduction on the elements of the stream using a given function.
+-In the context of Java streams, a data source refers to the source from which data is consumed by a stream for processing. 
 
-####Intermediate Operations
-Intermediate operations are operations that transform a stream into another stream. These operations are lazy; they do not process the data when they are called but instead create a new stream that, when traversed, contains the elements of the initial stream transformed by the intermediate operation. Examples include:
+-It can be a collection, an array, a generator function, or an I/O channel. 
 
-filter(): Returns a stream consisting of the elements that match the given predicate.
-sorted(): Returns a stream with the elements sorted according to natural order or by a provided comparator.
-map(): Transforms the elements of the stream by applying a function to each element.
+-In this example, int[] values serves as the data source when you create a stream using IntStream.of(values).
 
-####Lambda Expressions
-Lambda expressions in Java are a concise way of representing an instance of a functional interface (an interface with a single abstract method). Lambda expressions implement the only abstract function and therefore decide the behavior of the function. They are used extensively in Java streams to provide implementations for functional interfaces like Predicate, Function, and Consumer. Examples from your code:
+-Streams do not have their own storage
 
-(value -> System.out.printf("%d ", value)): A Consumer lambda that prints each element.
-((x, y) -> x + y): A BinaryOperator lambda used in reduce() to sum up elements.
-(value -> value % 2 == 0): A Predicate lambda that filters even numbers.
-These elements (data source, operations, lambda expressions) are fundamental to working with streams in Java and are used to perform complex data processing queries in a declarative way.
+#### Terminal Operations
+
+- Terminal operations are eager—they perform the requested operation when they are called. 
+
+- Terminal operations are the final operations that trigger the processing of the data in the stream and after which the stream cannot be used anymore. 
+
+- They typically return a non-stream result or produce a side-effect (such as forEach). Examples include:
+
+  * forEach(): Performs an action for each element of the stream.
+  * count(): Returns the count of elements in the stream.
+  * sum(): Sums the elements of a stream (specific to numeric streams like IntStream).
+  * min(), max(): Returns the minimum or maximum element respectively.
+  * reduce(): Performs a reduction on the elements of the stream using a given function.
+
+#### Intermediate Operations
+
+- Intermediate operations are lazy—they aren’t performed until a terminal operation is invoked. 
+
+Intermediate operations are operations that transform a stream into another stream. 
+
+These operations are lazy; they do not process the data when they are called but instead create a new stream that, when traversed, contains the elements of the initial stream transformed by the intermediate operation. Examples include:
+
+  * filter(): Returns a stream consisting of the elements that match the given predicate.
+  * sorted(): Returns a stream with the elements sorted according to natural order or by a provided comparator.
+  * map(): Transforms the elements of the stream by applying a function to each element.
+
+#### Lambda Expressions
+
+- Lambda expressions in Java are a concise way of representing an instance of a functional interface (an interface with a single abstract method). 
+
+- Lambda expressions implement the only abstract function and therefore decide the behavior of the function.
+
+- They are used extensively in Java streams to provide implementations for functional interfaces like Predicate, Function, and Consumer.
+
+- Examples from your code:
+
+  * (value -> System.out.printf("%d ", value))  : A Consumer lambda that prints each element.
+  * ((x, y) -> x + y)                           : A BinaryOperator lambda used in reduce() to sum up elements.
+  * (value -> value % 2 == 0)                   : A Predicate lambda that filters even numbers.
+
+
