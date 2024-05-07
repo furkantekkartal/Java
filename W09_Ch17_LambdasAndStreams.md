@@ -5,7 +5,21 @@
 ## 1. Fig17_03_StreamReduce
 
 ```
+package javachapter17;  // Defines the package for the class
 
+import java.util.stream.IntStream;  // Imports the IntStream class for creating streams of ints
+
+public class Fig17_03_StreamReduce {
+
+    public static void main(String[] args) {
+        // Prints the sum of integers from 1 to 10 using formatted output
+        System.out.printf("Sum of 1 through 10 is: %d%n",
+                // IntStream.rangeClosed(1, 10) generates a stream of integers from 1 to 10, inclusive
+                IntStream.rangeClosed(1, 10)
+                        // The sum() method calculates and returns the sum of all elements in the stream.
+                        .sum());
+    }
+}
 ```
 
 ## 2. Fig17_04_StreamMapReduce
