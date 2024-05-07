@@ -1,4 +1,4 @@
-![image](https://github.com/furkantekkartal/java/assets/139097441/cfe3907f-97a3-4fc2-abfb-39dfd7cfa5d0)![image](https://github.com/furkantekkartal/java/assets/139097441/897dd26d-fe88-4f52-9ead-8c416311d9e7)# Java | Lambdas and  Streams
+# Java | Lambdas and  Streams
 
 ## 1. IntStreamOperations
 
