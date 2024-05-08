@@ -447,6 +447,8 @@ public class Fig17_12_ArraysAndStreams2 {
 }
 ```
 
+![picture](./Images/Fig17_12_ArraysAndStreams2.png)
+
 ## 8. Fig17_13_Employee
 
 ### Explanation:
@@ -852,14 +854,225 @@ public class Fig17_14_ProcessingEmployees {
 }
 ```
 
+![picture](./Images/Fig17_14_ProcessingEmployees.png)
+
 ## 10. Fig17_22_StreamOfLines
 
 ```
+package javachapter17;
 
+// Fig. 17.22: StreamOfLines.java
+// Counting word occurrences in a text file.
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+public class Fig17_22_StreamOfLines {
+
+    public static void main(String[] args) throws IOException {
+        // Regex that matches one or more consecutive whitespace characters
+        Pattern pattern = Pattern.compile("\\s+");
+
+        // count occurrences of each word in a Stream<String> sorted by word
+        Map<String, Long> wordCounts
+                = Files.lines(Paths.get("Chapter2Paragraph.txt"))
+                        .flatMap(line -> pattern.splitAsStream(line))
+                        .collect(Collectors.groupingBy(String::toLowerCase,
+                                TreeMap::new, Collectors.counting()));
+
+        /*
+        Files.lines(Paths.get("Chapter2Paragraph.txt")): Stream of lines from the file
+        .flatMap(line -> pattern.splitAsStream(line)): Stream of words after splitting each line by whitespace
+        .collect(Collectors.groupingBy(String::toLowerCase, TreeMap::new, Collectors.counting())):
+        {
+            "a": 3,
+            "and": 2,
+            "as": 1,
+            "be": 1,
+            "by": 1,
+            "can": 1,
+            "contain": 1,
+            "containing": 1,
+            "create": 1,
+            "data": 1,
+            "enable": 1,
+            "entire": 1,
+            "for": 1,
+            "from": 1,
+            "general": 1,
+            "in": 1,
+            "objects": 2,
+            "or": 1,
+            "organized": 1,
+            "other": 1,
+            "references": 1,
+            "single": 1,
+            "storing": 1,
+            "to": 1,
+            "type": 1,
+            "types": 1,
+            "used": 1,
+            "variable": 1,
+            "variables": 1,
+            "you": 1
+        }
+        */
+
+        // display the words grouped by starting letter
+        wordCounts.entrySet()
+                .stream()
+                .collect(
+                        Collectors.groupingBy(entry -> entry.getKey().charAt(0),
+                                TreeMap::new, Collectors.toList()))
+                .forEach((letter, wordList)
+                        -> {
+                    System.out.printf("%n%C%n", letter);
+                    wordList.stream().forEach(word -> System.out.printf(
+                            "%13s: %d%n", word.getKey(), word.getValue()));
+                });
+
+        /*
+        wordCounts.entrySet(): Set of Map.Entry objects from the wordCounts map
+        .stream(): Stream of Map.Entry objects
+        .collect(Collectors.groupingBy(entry -> entry.getKey().charAt(0), TreeMap::new, Collectors.toList())):
+        {
+            'a': [a=3, and=2, as=1],
+            'b': [be=1, by=1],
+            'c': [can=1, contain=1, containing=1, create=1],
+            'd': [data=1],
+            'e': [enable=1, entire=1],
+            'f': [for=1, from=1],
+            'g': [general=1],
+            'i': [in=1],
+            'o': [objects=2, or=1, organized=1, other=1],
+            'r': [references=1],
+            's': [single=1, storing=1],
+            't': [to=1, type=1, types=1],
+            'u': [used=1],
+            'v': [variable=1, variables=1],
+            'y': [you=1]
+        }
+        .forEach((letter, wordList) -> {...}):
+        Output:
+        A
+                   a: 3
+                 and: 2
+                  as: 1
+
+        B
+                  be: 1
+                  by: 1
+
+        C
+                 can: 1
+             contain: 1
+          containing: 1
+              create: 1
+
+        D
+                data: 1
+
+        E
+              enable: 1
+              entire: 1
+
+        F
+                 for: 1
+                from: 1
+
+        G
+             general: 1
+
+        I
+                  in: 1
+
+        O
+             objects: 2
+                  or: 1
+           organized: 1
+               other: 1
+
+        R
+          references: 1
+
+        S
+              single: 1
+             storing: 1
+
+        T
+                  to: 1
+                type: 1
+               types: 1
+
+        U
+                used: 1
+
+        V
+            variable: 1
+           variables: 1
+
+        Y
+                 you: 1
+        */
+    }
+}
 ```
+
+![picture](./Images/Fig17_22_StreamOfLines.png)
 
 ## 11. Fig17_24_RandomIntStream
 
 ```
+package javachapter17;
 
+// Fig. 17.24: RandomIntStream.java
+// Rolling a die 60,000,000 times with streams
+import java.security.SecureRandom;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+public class Fig17_24_RandomIntStream {
+
+    public static void main(String[] args) {
+        SecureRandom random = new SecureRandom();
+
+        // roll a die 60,000,000 times and summarize the results      
+        System.out.printf("%-6s%s%n", "Face", "Frequency");
+        random.ints(60_000, 1, 7) // generate 60 million random ints between 1 and 7
+                .boxed()
+                .collect(Collectors.groupingBy(Function.identity(),
+                        Collectors.counting())) // count occurrences of each face
+                .forEach((face, frequency)
+                        -> System.out.printf("%-6d%d%n", face, frequency));
+
+        /*
+        random.ints(60_000_000, 1, 7): IntStream of 60,000,000 random integers between 1 and 7
+        .boxed(): Stream<Integer> after boxing each int value
+        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting())):
+        {
+            1: 10003641,
+            2: 9998071,
+            3: 9998955,
+            4: 10001082,
+            5: 9997791,
+            6: 10000460
+        }
+        .forEach((face, frequency) -> System.out.printf("%-6d%d%n", face, frequency)):
+        Output:
+        Face  Frequency
+        1     10003641
+        2     9998071
+        3     9998955
+        4     10001082
+        5     9997791
+        6     10000460
+        */
+    }
+}
 ```
+
+![picture](./Images/Fig17_24_RandomIntStream.png)
