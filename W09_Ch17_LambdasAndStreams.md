@@ -278,8 +278,79 @@ Step-by-Step Execution
 ## 6. Fig17_11_ArraysAndStreams
 
 ```
+package javachapter17;
 
+// Fig. 17.11: ArraysAndStreams.java
+// Demonstrating lambdas and streams with an array of Integers.
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Fig17_11_ArraysAndStreams {
+
+    public static void main(String[] args) {
+        Integer[] values = {2, 9, 5, 0, 3, 7, 1, 4, 8, 6};  // Array of Integer values
+
+        // Display original values
+        System.out.printf("Original values: %s%n", Arrays.asList(values));  // Converts the array to a List and prints it
+        /*
+        Arrays.asList(values) : [2, 9, 5, 0, 3, 7, 1, 4, 8, 6]
+        */
+
+        // Sort values in ascending order with streams
+        System.out.printf("Sorted values: %s%n",
+                Arrays.stream(values)  // Creates a stream from the array
+                        .sorted()  // Sorts the stream in natural ascending order
+                        .collect(Collectors.toList()));  // Collects the results into a List and prints
+        /*
+        Arrays.stream(values) : {2, 9, 5, 0, 3, 7, 1, 4, 8, 6}
+        .sorted(): {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+        .collect(Collectors.toList()): [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        */
+        
+        // Values greater than 4
+        List<Integer> greaterThan4
+                = Arrays.stream(values)  // Creates a stream from the array
+                        .filter(value -> value > 4)  // Filters stream to include only values greater than 4
+                        .collect(Collectors.toList());  // Collects the filtered results into a List
+        System.out.printf("Values greater than 4: %s%n", greaterThan4);  // Prints the List
+        /*
+        Arrays.stream(values) : {2, 9, 5, 0, 3, 7, 1, 4, 8, 6}
+        .filter(value -> value > 4): {9, 5, 7, 8, 6}
+        .collect(Collectors.toList()): [9, 5, 7, 8, 6]
+        */
+
+        // Filter values greater than 4 then sort the results
+        System.out.printf("Sorted values greater than 4: %s%n",
+                Arrays.stream(values)  // Creates a stream from the array
+                        .filter(value -> value > 4)  // Filters stream to include only values greater than 4
+                        .sorted()  // Sorts the filtered stream
+                        .collect(Collectors.toList()));  // Collects the sorted results into a List and prints
+        /*
+        Arrays.stream(values) : {2, 9, 5, 0, 3, 7, 1, 4, 8, 6}
+        .filter(value -> value > 4): {9, 5, 7, 8, 6}
+        .sorted(): {5, 6, 7, 8, 9}
+        .collect(Collectors.toList()): [5, 6, 7, 8, 9]
+        */
+
+        // GreaterThan4 list sorted with streams
+        System.out.printf(
+                "Values greater than 4 (ascending with streams): %s%n",
+                greaterThan4.stream()  // Creates a stream from the greaterThan4 List
+                        .sorted()  // Sorts the stream in natural ascending order
+                        .collect(Collectors.toList()));  // Collects the sorted results into a List and prints
+        /*
+        greaterThan4.stream(): {9, 5, 7, 8, 6}
+        .sorted(): {5, 6, 7, 8, 9}
+        .collect(Collectors.toList()): [5, 6, 7, 8, 9]
+        */
+    }
+}
 ```
+
+![picture](./Images/Fig17_11_ArraysAndStreams.png)
+
 
 ## 7. Fig17_12_ArraysAndStreams2
 
@@ -289,8 +360,104 @@ Step-by-Step Execution
 
 ## 8. Fig17_13_Employee
 
-```
+### Explanation:
 
+1. The Fig17_13_Employee class represents an employee with properties such as first name, last name, salary, and department.
+
+2. The class has private instance variables firstName, lastName, salary, and department to store the employee's information.
+
+3. The constructor Fig17_13_Employee takes parameters for firstName, lastName, salary, and department, and initializes the corresponding instance variables using the this keyword.
+
+4. Getter and setter methods are provided for each instance variable:
+* setFirstName() and getFirstName() for the firstName property.
+* setLastName() and getLastName() for the lastName property.
+* setSalary() and getSalary() for the salary property.
+* setDepartment() and getDepartment() for the department property.
+
+5. The getName() method returns the full name of the employee by concatenating the first name and last name obtained from the respective getter methods.
+
+6. The toString() method is overridden to provide a formatted string representation of the employee. It uses the String.format() method to create a formatted string with the employee's information. The format specifiers used are:
+  * %-8s for left-justified firstName and lastName with a width of 8 characters.
+  * %8.2f for salary with a width of 8 characters and 2 decimal places.
+  * %s for department.
+
+This Fig17_13_Employee class encapsulates the data and behavior of an employee object, providing methods to access and modify the employee's information, as well as a formatted string representation of the employee.
+
+```
+package javachapter17;
+//Fig17_12_
+
+// Fig. 17.13: Employee.java
+// Employee class.
+public class Fig17_13_Employee {
+   private String firstName;
+   private String lastName;
+   private double salary;
+   private String department;
+   
+   // Constructor
+   public Fig17_13_Employee(String firstName, String lastName, 
+      double salary, String department) {
+      // Initialize the instance variables with the provided values
+      this.firstName = firstName;
+      this.lastName = lastName; 
+      this.salary = salary;
+      this.department = department;
+   }
+   
+   // Setter method for firstName
+   public void setFirstName(String firstName) {
+      this.firstName = firstName;
+   }
+   
+   // Getter method for firstName
+   public String getFirstName() {
+      return firstName;
+   }
+   
+   // Setter method for lastName
+   public void setLastName(String lastName) {
+      this.lastName = lastName;
+   }
+   
+   // Getter method for lastName
+   public String getLastName() {
+      return lastName;
+   }
+   
+   // Setter method for salary
+   public void setSalary(double salary) {
+      this.salary = salary;
+   }
+   
+   // Getter method for salary
+   public double getSalary() {
+      return salary;
+   }
+   
+   // Setter method for department
+   public void setDepartment(String department) {
+      this.department = department;
+   }
+   
+   // Getter method for department
+   public String getDepartment() {
+      return department;
+   }
+   
+   // Method to get the full name (first name + last name) of the employee
+   public String getName() {
+      return String.format("%s %s", getFirstName(), getLastName());
+   }
+   
+   // Override the toString() method to provide a formatted string representation of the employee
+   @Override 
+   public String toString() {
+      // Format the employee information using the getter methods
+      return String.format("%-8s %-8s %8.2f   %s", 
+         getFirstName(), getLastName(), getSalary(), getDepartment());
+   }
+}
 ```
 
 ## 9. Fig17_14_ProcessingEmployees
