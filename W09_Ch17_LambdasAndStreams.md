@@ -551,8 +551,305 @@ public class Fig17_13_Employee {
 
 ## 9. Fig17_14_ProcessingEmployees
 
-```
+### Explanation:
 
+1. The Fig17_14_ProcessingEmployees class demonstrates various operations on streams of Fig17_13_Employee objects.
+
+2. The main method is the entry point of the program.
+
+3. An array of Fig17_13_Employee objects called employees is initialized with sample employee data.
+
+4. The array is converted to a List using Arrays.asList(employees) to obtain a list view of the employees.
+
+5. The code then demonstrates different stream operations on the list of employees:
+* Displaying all employees using forEach(System.out::println).
+* Filtering employees with salaries between $4000 and $6000 using a predicate fourToSixThousand and displaying them sorted by salary in ascending order.
+* Finding the first employee with a salary between $4000 and $6000 using findFirst() and get().
+* Defining functions byFirstName and byLastName to extract the first name and last name of an employee.
+* Creating a comparator lastThenFirst that compares employees by last name and then by first name.
+* Sorting employees in ascending and descending order using the lastThenFirst comparator and its reversed version.
+* Displaying unique employee last names sorted alphabetically using distinct() and sorted().
+* Displaying employee names (first and last) sorted by last name and then by first name using sorted() and map().
+* Grouping employees by department using collect(Collectors.groupingBy()) and displaying the grouped employees.
+* Counting the number of employees in each department using collect(Collectors.groupingBy()) with Collectors.counting().
+* Calculating the sum of employee salaries using the sum() method of DoubleStream.
+* Calculating the sum of employee salaries using the reduce() method of Stream.
+* Calculating the average of employee salaries using the average() method of DoubleStream.
+
+6. The code extensively uses lambda expressions and method references to define predicates, functions, and comparators for stream operations.
+
+7. The output of each operation is displayed using System.out.printf() with appropriate formatting.
+
+This code showcases the power and flexibility of streams and lambda expressions in Java 8 and above. It demonstrates various common operations like filtering, sorting, grouping, and aggregating data using streams. The use of method references and lambda expressions makes the code more concise and expressive.
+
+The code also highlights the use of Collectors class methods like groupingBy() and counting() to perform advanced data transformations and aggregations. The Comparator class is used to define custom comparators for sorting employees based on multiple fields.
+
+Overall, this code provides a comprehensive example of stream operations and their usage in processing and manipulating a collection of objects.
+
+```
+package javachapter17;
+// Fig. 17.14: ProcessingEmployees.java
+// Processing streams of Employee objects.
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+public class Fig17_14_ProcessingEmployees {
+
+    public static void main(String[] args) {
+        // initialize array of Employees
+        Fig17_13_Employee[] employees = {
+            new Fig17_13_Employee("Jason", "Red", 5000, "IT"),
+            new Fig17_13_Employee("Ashley", "Green", 7600, "IT"),
+            new Fig17_13_Employee("Matthew", "Indigo", 3587.5, "Sales"),
+            new Fig17_13_Employee("James", "Indigo", 4700.77, "Marketing"),
+            new Fig17_13_Employee("Luke", "Indigo", 6200, "IT"),
+            new Fig17_13_Employee("Jason", "Blue", 3200, "Sales"),
+            new Fig17_13_Employee("Wendy", "Brown", 4236.4, "Marketing")};
+
+        // get List view of the Employees
+        List<Fig17_13_Employee> list = Arrays.asList(employees);
+
+        // display all Employees
+        System.out.println("Complete Employee list:");
+        list.stream().forEach(System.out::println);
+        /*
+        list.stream(): [Employee@7e0ea639, Employee@3d24753a, Employee@7d417077, Employee@7f690630, Employee@2352544e, Employee@4ec4f3a0, Employee@2401f4c3]
+        .forEach(System.out::println):
+        Jason    Red          5000.00   IT
+        Ashley   Green        7600.00   IT
+        Matthew  Indigo       3587.50   Sales
+        James    Indigo       4700.77   Marketing
+        Luke     Indigo       6200.00   IT
+        Jason    Blue         3200.00   Sales
+        Wendy    Brown        4236.40   Marketing
+         */
+
+        // Predicate that returns true for salaries in the range $4000-$6000
+        Predicate<Fig17_13_Employee> fourToSixThousand
+                = e -> (e.getSalary() >= 4000 && e.getSalary() <= 6000);
+        // Display Employees with salaries in the range $4000-$6000
+        // sorted into ascending order by salary
+        System.out.printf("%nEmployees earning $4000-$6000 per month sorted by salary:%n");
+        list.stream()
+                .filter(fourToSixThousand)
+                .sorted(Comparator.comparing(Fig17_13_Employee::getSalary))
+                .forEach(System.out::println);
+        /*
+        list.stream(): [Employee@7e0ea639, Employee@3d24753a, Employee@7d417077, Employee@7f690630, Employee@2352544e, Employee@4ec4f3a0, Employee@2401f4c3]
+        .filter(fourToSixThousand): [Employee@7e0ea639, Employee@7f690630, Employee@2401f4c3, Employee@2352544e]
+        .sorted(Comparator.comparing(Fig17_13_Employee::getSalary)): [Employee@2401f4c3, Employee@7f690630, Employee@7e0ea639, Employee@2352544e]
+        .forEach(System.out::println):
+        Wendy    Brown        4236.40   Marketing
+        James    Indigo       4700.77   Marketing
+        Jason    Red          5000.00   IT
+        Luke     Indigo       6200.00   IT
+         */
+
+        // Display first Employee with salary in the range $4000-$6000
+        System.out.printf("%nFirst employee who earns $4000-$6000:%n%s%n",
+                list.stream()
+                        .filter(fourToSixThousand)
+                        .findFirst()
+                        .get());
+        /*
+        list.stream(): [Employee@7e0ea639, Employee@3d24753a, Employee@7d417077, Employee@7f690630, Employee@2352544e, Employee@4ec4f3a0, Employee@2401f4c3]
+        .filter(fourToSixThousand): [Employee@7e0ea639, Employee@7f690630, Employee@2401f4c3, Employee@2352544e]
+        .findFirst(): Optional[Employee@7e0ea639]
+        .get(): Employee@7e0ea639
+        Output:
+        Jason    Red          5000.00   IT
+         */
+
+        // Functions for getting first and last names from an Employee
+        Function<Fig17_13_Employee, String> byFirstName = Fig17_13_Employee::getFirstName;
+        Function<Fig17_13_Employee, String> byLastName = Fig17_13_Employee::getLastName;
+
+        // Comparator for comparing Employees by first name then last name
+        Comparator<Fig17_13_Employee> lastThenFirst
+                = Comparator.comparing(byLastName).thenComparing(byFirstName);
+
+        // sort employees by last name, then first name
+        System.out.printf(
+                "%nEmployees in ascending order by last name then first:%n");
+        list.stream()
+                .sorted(lastThenFirst)
+                .forEach(System.out::println);
+        /*
+        list.stream(): [Employee@7e0ea639, Employee@3d24753a, Employee@7d417077, Employee@7f690630, Employee@2352544e, Employee@4ec4f3a0, Employee@2401f4c3]
+        .sorted(lastThenFirst): [Employee@4ec4f3a0, Employee@2401f4c3, Employee@3d24753a, Employee@7d417077, Employee@7f690630, Employee@2352544e, Employee@7e0ea639]
+        .forEach(System.out::println):
+        Jason    Blue         3200.00   Sales
+        Wendy    Brown        4236.40   Marketing
+        Ashley   Green        7600.00   IT
+        James    Indigo       4700.77   Marketing
+        Luke     Indigo       6200.00   IT
+        Matthew  Indigo       3587.50   Sales
+        Jason    Red          5000.00   IT
+         */
+
+        // sort employees in descending order by last name, then first name
+        System.out.printf("%nEmployees in descending order by last name then first:%n");
+        list.stream()
+                .sorted(lastThenFirst.reversed())
+                .forEach(System.out::println);
+        /*
+        list.stream(): [Employee@7e0ea639, Employee@3d24753a, Employee@7d417077, Employee@7f690630, Employee@2352544e, Employee@4ec4f3a0, Employee@2401f4c3]
+        .sorted(lastThenFirst.reversed()): [Employee@7e0ea639, Employee@2352544e, Employee@7f690630, Employee@7d417077, Employee@3d24753a, Employee@2401f4c3, Employee@4ec4f3a0]
+        .forEach(System.out::println):
+        Jason    Red          5000.00   IT
+        Luke     Indigo       6200.00   IT
+        Matthew  Indigo       3587.50   Sales
+        James    Indigo       4700.77   Marketing
+        Ashley   Green        7600.00   IT
+        Wendy    Brown        4236.40   Marketing
+        Jason    Blue         3200.00   Sales
+         */
+
+        // display unique employee last names sorted
+        System.out.printf("%nUnique employee last names:%n");
+        list.stream()
+                .map(Fig17_13_Employee::getLastName)
+                .distinct()
+                .sorted()
+                .forEach(System.out::println);
+        /*
+        list.stream(): [Employee@7e0ea639, Employee@3d24753a, Employee@7d417077, Employee@7f690630, Employee@2352544e, Employee@4ec4f3a0, Employee@2401f4c3]
+            .map(Fig17_13_Employee::getLastName): ["Red", "Green", "Indigo", "Indigo", "Indigo", "Blue", "Brown"]
+            .distinct(): ["Red", "Green", "Indigo", "Blue", "Brown"]
+            .sorted(): ["Blue", "Brown", "Green", "Indigo", "Red"]
+            .forEach(System.out::println):
+            Blue
+            Brown
+            Green
+            Indigo
+            Red
+         */
+
+// display only first and last names
+        System.out.printf(
+                "%nEmployee names in order by last name then first name:%n");
+        list.stream()
+                .sorted(lastThenFirst)
+                .map(Fig17_13_Employee::getName)
+                .forEach(System.out::println);
+        /*
+    list.stream(): [Employee@7e0ea639, Employee@3d24753a, Employee@7d417077, Employee@7f690630, Employee@2352544e, Employee@4ec4f3a0, Employee@2401f4c3]
+    .sorted(lastThenFirst): [Employee@4ec4f3a0, Employee@2401f4c3, Employee@3d24753a, Employee@7d417077, Employee@7f690630, Employee@2352544e, Employee@7e0ea639]
+    .map(Fig17_13_Employee::getName): ["Jason Blue", "Wendy Brown", "Ashley Green", "James Indigo", "Luke Indigo", "Matthew Indigo", "Jason Red"]
+    .forEach(System.out::println):
+    Jason Blue
+    Wendy Brown
+    Ashley Green
+    James Indigo
+    Luke Indigo
+    Matthew Indigo
+    Jason Red
+         */
+
+        // group Employees by department
+        System.out.printf("%nEmployees by department:%n");
+        Map<String, List<Fig17_13_Employee>> groupedByDepartment
+                = list.stream()
+                        .collect(Collectors.groupingBy(Fig17_13_Employee::getDepartment));
+
+        groupedByDepartment.forEach(
+                (department, employeesInDepartment) -> {
+                    System.out.printf("%n%s%n", department);
+                    employeesInDepartment.forEach(
+                            employee -> System.out.printf("   %s%n", employee));
+                }
+        );
+        /*
+    list.stream(): [Employee@7e0ea639, Employee@3d24753a, Employee@7d417077, Employee@7f690630, Employee@2352544e, Employee@4ec4f3a0, Employee@2401f4c3]
+    .collect(Collectors.groupingBy(Fig17_13_Employee::getDepartment)):
+    {IT=[Employee@7e0ea639, Employee@3d24753a, Employee@2352544e], 
+    Sales=[Employee@7d417077, Employee@4ec4f3a0], 
+    Marketing=[Employee@7f690630, Employee@2401f4c3]}
+    Output:
+    IT
+       Jason    Red          5000.00   IT
+       Ashley   Green        7600.00   IT
+       Luke     Indigo       6200.00   IT
+
+    Sales
+       Matthew  Indigo       3587.50   Sales
+       Jason    Blue         3200.00   Sales
+
+    Marketing
+       James    Indigo       4700.77   Marketing
+       Wendy    Brown        4236.40   Marketing
+         */
+
+        // count number of Employees in each department
+        System.out.printf("%nCount of Employees by department:%n");
+        Map<String, Long> employeeCountByDepartment
+                = list.stream()
+                        .collect(Collectors.groupingBy(Fig17_13_Employee::getDepartment,
+                                TreeMap::new, Collectors.counting()));
+        employeeCountByDepartment.forEach(
+                (department, count) -> System.out.printf(
+                        "%s has %d employee(s)%n", department, count));
+        /*
+    list.stream(): [Employee@7e0ea639, Employee@3d24753a, Employee@7d417077, Employee@7f690630, Employee@2352544e, Employee@4ec4f3a0, Employee@2401f4c3]
+    .collect(Collectors.groupingBy(Fig17_13_Employee::getDepartment, TreeMap::new, Collectors.counting())):
+    {IT=3, Marketing=2, Sales=2}
+    Output:
+    IT has 3 employee(s)
+    Marketing has 2 employee(s)
+    Sales has 2 employee(s)
+         */
+
+        // sum of Employee salaries with DoubleStream sum method
+        System.out.printf(
+                "%nSum of Employees' salaries (via sum method): %.2f%n",
+                list.stream()
+                        .mapToDouble(Fig17_13_Employee::getSalary)
+                        .sum());
+        /*
+    list.stream(): [Employee@7e0ea639, Employee@3d24753a, Employee@7d417077, Employee@7f690630, Employee@2352544e, Employee@4ec4f3a0, Employee@2401f4c3]
+    .mapToDouble(Fig17_13_Employee::getSalary): [5000.0, 7600.0, 3587.5, 4700.77, 6200.0, 3200.0, 4236.4]
+    .sum(): 34524.67
+    Output:
+    Sum of Employees' salaries (via sum method): 34524.67
+         */
+
+        // calculate sum of Employee salaries with Stream reduce method
+        System.out.printf(
+                "Sum of Employees' salaries (via reduce method): %.2f%n",
+                list.stream()
+                        .mapToDouble(Fig17_13_Employee::getSalary)
+                        .reduce(0, (value1, value2) -> value1 + value2));
+        /*
+    list.stream(): [Employee@7e0ea639, Employee@3d24753a, Employee@7d417077, Employee@7f690630, Employee@2352544e, Employee@4ec4f3a0, Employee@2401f4c3]
+    .mapToDouble(Fig17_13_Employee::getSalary): [5000.0, 7600.0, 3587.5, 4700.77, 6200.0, 3200.0, 4236.4]
+    .reduce(0, (value1, value2) -> value1 + value2): 34524.67
+    Output:
+    Sum of Employees' salaries (via reduce method): 34524.67
+         */
+
+        // average of Employee salaries with DoubleStream average method
+        System.out.printf("Average of Employees' salaries: %.2f%n",
+                list.stream()
+                        .mapToDouble(Fig17_13_Employee::getSalary)
+                        .average()
+                        .getAsDouble());
+        /*
+    list.stream(): [Employee@7e0ea639, Employee@3d24753a, Employee@7d417077, Employee@7f690630, Employee@2352544e, Employee@4ec4f3a0, Employee@2401f4c3]
+    .mapToDouble(Fig17_13_Employee::getSalary): [5000.0, 7600.0, 3587.5, 4700.77, 6200.0, 3200.0, 4236.4]
+    .average(): OptionalDouble[4932.0957142857145]
+    .getAsDouble(): 4932.0957142857145
+    Output:
+    Average of Employees' salaries: 4932.10
+         */
+    }
+}
 ```
 
 ## 10. Fig17_22_StreamOfLines
