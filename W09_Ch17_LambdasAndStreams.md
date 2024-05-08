@@ -354,8 +354,97 @@ public class Fig17_11_ArraysAndStreams {
 
 ## 7. Fig17_12_ArraysAndStreams2
 
-```
+### Explanation:
 
+1. The Fig17_12_ArraysAndStreams2 class demonstrates the usage of lambdas and streams with an array of strings.
+
+2. The main method is the entry point of the program.
+
+3. Inside the main method, an array of strings called strings is defined, containing the names of colors: "Red", "orange", "Yellow", "green", "Blue", "indigo", "Violet".
+
+4. The original array of strings is displayed using System.out.printf() and Arrays.asList(strings). This converts the array to a list and prints it in a readable format.
+
+5. The code then demonstrates how to convert all the strings to uppercase using streams:
+* Arrays.stream(strings) creates a stream from the strings array.
+* .map(String::toUpperCase) applies the toUpperCase() method to each string in the stream using a method reference.
+* .collect(Collectors.toList()) collects the uppercase strings into a list.
+* The resulting list of uppercase strings is printed using System.out.printf().
+
+6. Next, the code shows how to filter and sort strings that come before the letter "n" (case-insensitive) in ascending order:
+* Arrays.stream(strings) creates a stream from the strings array.
+* .filter(s -> s.compareToIgnoreCase("n") < 0) filters the strings that come before "n" using a lambda expression. The compareToIgnoreCase() method is used for case-insensitive comparison.
+* .sorted(String.CASE_INSENSITIVE_ORDER) sorts the filtered strings in ascending order using a case-insensitive comparator.
+* .collect(Collectors.toList()) collects the sorted strings into a list.
+* The resulting list of filtered and sorted strings is printed using System.out.printf().
+
+7. Finally, the code demonstrates filtering and sorting strings that come before the letter "n" (case-insensitive) in descending order:
+* Arrays.stream(strings) creates a stream from the strings array.
+* .filter(s -> s.compareToIgnoreCase("n") < 0) filters the strings that come before "n" using a lambda expression.
+* .sorted(String.CASE_INSENSITIVE_ORDER.reversed()) sorts the filtered strings in descending order using a reversed case-insensitive comparator.
+* .collect(Collectors.toList()) collects the sorted strings into a list.
+* The resulting list of filtered and sorted strings is printed using System.out.printf().
+
+This code showcases the power of streams and lambda expressions in Java 8 and above. It demonstrates how to perform operations like mapping, filtering, and sorting on an array of strings using concise and expressive code. The use of method references (e.g., String::toUpperCase) and lambda expressions (e.g., s -> s.compareToIgnoreCase("n") < 0) makes the code more readable and functional in style.
+
+```
+package javachapter17;
+
+// Fig. 17.12: ArraysAndStreams2.java
+// Demonstrating lambdas and streams with an array of Strings.
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.stream.Collectors;
+
+public class Fig17_12_ArraysAndStreams2 {
+
+    public static void main(String[] args) {
+        String[] strings = {"Red", "orange", "Yellow", "green", "Blue", "indigo", "Violet"};
+        // Original array of strings
+
+        // Display original strings
+        System.out.printf("Original strings: %s%n", Arrays.asList(strings));
+        /*
+        Arrays.asList(strings): ["Red", "orange", "Yellow", "green", "Blue", "indigo", "Violet"]
+        */
+
+        // Strings in uppercase
+        System.out.printf("Strings in uppercase: %s%n",
+                Arrays.stream(strings)  // Creates a stream from the array
+                        .map(String::toUpperCase)  // Applies the toUpperCase() method to each string in the stream
+                        .collect(Collectors.toList()));  // Collects the uppercase strings into a List and prints
+        /*
+        Arrays.stream(strings): {"Red", "orange", "Yellow", "green", "Blue", "indigo", "Violet"}
+        .map(String::toUpperCase): {"RED", "ORANGE", "YELLOW", "GREEN", "BLUE", "INDIGO", "VIOLET"}
+        .collect(Collectors.toList()): ["RED", "ORANGE", "YELLOW", "GREEN", "BLUE", "INDIGO", "VIOLET"]
+        */
+
+        // Strings less than "n" (case insensitive) sorted ascending
+        System.out.printf("Strings less than \"n\" sorted ascending: %s%n",
+                Arrays.stream(strings)  // Creates a stream from the array
+                        .filter(s -> s.compareToIgnoreCase("n") < 0)  // Filters strings that come before "n" (case insensitive)
+                        .sorted(String.CASE_INSENSITIVE_ORDER)  // Sorts the filtered strings in ascending order (case insensitive)
+                        .collect(Collectors.toList()));  // Collects the sorted strings into a List and prints
+        /*
+        Arrays.stream(strings): {"Red", "orange", "Yellow", "green", "Blue", "indigo", "Violet"}
+        .filter(s -> s.compareToIgnoreCase("n") < 0): {"Blue", "green", "indigo"}
+        .sorted(String.CASE_INSENSITIVE_ORDER): {"Blue", "green", "indigo"}
+        .collect(Collectors.toList()): ["Blue", "green", "indigo"]
+        */
+
+        // Strings less than "n" (case insensitive) sorted descending
+        System.out.printf("Strings less than \"n\" sorted descending: %s%n",
+                Arrays.stream(strings)  // Creates a stream from the array
+                        .filter(s -> s.compareToIgnoreCase("n") < 0)  // Filters strings that come before "n" (case insensitive)
+                        .sorted(String.CASE_INSENSITIVE_ORDER.reversed())  // Sorts the filtered strings in descending order (case insensitive)
+                        .collect(Collectors.toList()));  // Collects the sorted strings into a List and prints
+        /*
+        Arrays.stream(strings): {"Red", "orange", "Yellow", "green", "Blue", "indigo", "Violet"}
+        .filter(s -> s.compareToIgnoreCase("n") < 0): {"Blue", "green", "indigo"}
+        .sorted(String.CASE_INSENSITIVE_ORDER.reversed()): {"indigo", "green", "Blue"}
+        .collect(Collectors.toList()): ["indigo", "green", "Blue"]
+        */
+    }
+}
 ```
 
 ## 8. Fig17_13_Employee
